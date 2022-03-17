@@ -1,0 +1,24 @@
+body {
+  background-color: azure;
+}
+
+.pageTitle {
+  color: #1f1764;
+  align-items: center;
+}
+
+div {
+  width: 100%;
+  text-align: center;
+}
+
+li {
+  align-items: center;
+  margin: 10px;
+  font-size: large;
+  list-style-type: none;
+}
+
+button {
+  margin: 10px
+}
