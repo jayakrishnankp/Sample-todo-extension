@@ -5,7 +5,6 @@ class SQLStore {
   }
 
   get(callBack) {
-    let result = [];
     SQLStore.db.transaction((tx) => {
       tx.executeSql(`SELECT * FROM ${this.tableName}`, [], function (tx, rs) {
         callBack(rs.rows);
@@ -60,13 +59,7 @@ function openConnection(name) {
   window.sampleStore = new SQLStore({
     name: "sample"
   })
-  console.log("STORE INSIDE", window);
   initStores();
-  taskStore.get(function (result) {
-    console.log("ASLDHBLJKASBDLHJKASBLDJKBNLASJKBND", result)
-  });
-  // myStore.insert("Test1", "Test3");
 }
 
 openConnection("DummyDB");
-console.log("STORE", window);
