@@ -8,7 +8,7 @@ function showData(){
         let node = document.createElement('li');
         node.id = element.id;
         node.classList.add('listItem');
-        node.innerText = element.title;
+        node.innerText = element.title + ': ' + element.content;
         let removeButton = document.createElement('button');
         removeButton.textContent = 'x';
         removeButton.id = element.id.toString();
