@@ -24,9 +24,8 @@ class SQLStore {
   }
 
   delete(doc) {
-    // Call SQL transaction on this.db?
+    console.log("Deleting ", doc.id)
     SQLStore.db.transaction((tx) => {
-      console.log("Deleting ", doc.id)
       tx.executeSql(
         `DELETE FROM ${this.tableName} where id=${doc.id}`,
         [],
@@ -38,7 +37,7 @@ class SQLStore {
 function tableCreate(store) {
 
   SQLStore.db.transaction(function (tx) {
-    console.log("HI Table create")
+    console.log("Create Table")
     tx.executeSql(
       `CREATE TABLE IF NOT EXISTS ${store.tableName}(id TEXT PRIMARY KEY, title TEXT, content TEXT)`,
       [],
