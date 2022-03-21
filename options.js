@@ -39,4 +39,4 @@ function removeTask(e){
   showData();
 }
 
-setTimeout(showData, 1000);
+setTimeout(showData, 200);

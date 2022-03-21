@@ -1,20 +1,18 @@
-// let changeColor = document.getElementById("changeColor");
+function showData(){
+  let taskList = document.querySelector('#taskList');
+  taskList.innerHTML = '';
+  window.taskStore.get(function(tasks){
+    if(tasks){
+      rows = Object.values(tasks);
+      rows.forEach(element => {
+        let node = document.createElement('li');
+        node.id = element.id;
+        node.classList.add('listItem');
+        node.innerText = element.title;
+        taskList.appendChild(node);
+      });
+    }
+  });
+}
 
-// chrome.storage.sync.get('color', ({color}) => {
-//   changeColor.style.backgroundColor = color;
-// });
-
-// changeColor.addEventListener("click", async () => {
-//   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-//   chrome.scripting.executeScript({
-//     target: { tabId: tab.id },
-//     function: setPageBackgroundColor,
-//   });
-// });
-
-// function setPageBackgroundColor() {
-//   chrome.storage.sync.get("color", ({ color }) => {
-//     document.body.style.backgroundColor = color;
-//   });
-// }
+setTimeout(showData, 200);
