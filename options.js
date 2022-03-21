@@ -27,6 +27,8 @@ function submitForm(e){
   e.preventDefault();
   let title = document.querySelector('#inputTitle').value;
   let content = document.querySelector('#inputContent').value;
+  document.querySelector('#inputContent').value = '';
+  document.querySelector('#inputTitle').value = '';
 
   window.taskStore.insert({title, content});
   showData();
