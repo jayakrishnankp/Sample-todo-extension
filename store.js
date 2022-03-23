@@ -4,45 +4,41 @@ class SQLStore {
     this.tableName = options.name;
   }
 
-  get(callBack) {
-    SQLStore.db.transaction((tx) => {
-      tx.executeSql(`SELECT * FROM ${this.tableName}`, [], function (tx, rs) {
-        callBack(rs.rows);
-      });
+  get(callback) {
+    let sqlQry = `SELECT * FROM ${this.tableName}`;
+    execQuery(sqlQry, (result) => {
+      callback(result);
     });
   }
 
   insert(doc) {
     console.log("Insert", doc.title, doc.content);
-    SQLStore.db.transaction((tx) => {
-      tx.executeSql(
-        `INSERT INTO ${this.tableName}(id, title, content) VALUES ('${Date.now()}', "${doc.title}", "${doc.content}")`,
-        [],
-        function (tx) { console.log("Insert", tx) }
-      );
-    })
+    let sqlQry = `INSERT INTO ${this.tableName}(id, title, content) VALUES ('${Date.now()}', "${doc.title}", "${doc.content}")`;
+    execQuery(sqlQry);
   }
 
   delete(doc) {
     console.log("Deleting ", doc.id)
-    SQLStore.db.transaction((tx) => {
-      tx.executeSql(
-        `DELETE FROM ${this.tableName} where id=${doc.id}`,
-        [],
-        function (tx) { console.log("Delete", tx) });
-    })
+    let sqlQry = `DELETE FROM ${this.tableName} where id=${doc.id}`;
+    execQuery(sqlQry);
   }
 }
 
 function tableCreate(store) {
+  let sqlQry = `CREATE TABLE IF NOT EXISTS ${store.tableName}(id TEXT PRIMARY KEY, title TEXT, content TEXT)`;
+  execQuery(sqlQry);
+}
 
-  SQLStore.db.transaction(function (tx) {
-    console.log("Create Table")
-    tx.executeSql(
-      `CREATE TABLE IF NOT EXISTS ${store.tableName}(id TEXT PRIMARY KEY, title TEXT, content TEXT)`,
-      [],
-      function (tx) { console.log(tx) }, null);
-  });
+function execQuery(sql, callback) {
+  SQLStore.db.transaction( tx => {
+    tx.executeSql(sql, [], (tx, rs) => {
+      if(sql.split(' ')[0] === "SELECT"){
+        callback(rs.rows);
+      } else {
+        console.log("Completed transaction");
+      }
+    })
+  })
 }
 
 function initStores() {
